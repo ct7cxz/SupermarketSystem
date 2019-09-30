@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>管理员注册</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link href="../../css/bootstrap.css" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <script src="../../js/bootstrap.js"></script>
+
+    <!--引用表单校验插件-->
+
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-validator/0.5.3/js/bootstrapValidator.js"></script>
+
+    <script>
+        $(function () {
+            var chose = false;
+            $("#user").blur(function () {
+                var user = $("#user").val();
+                console.log(user)
+                $.ajax({
+                    url: "[[@{/}]]user/registerCheck",
+                    async: true,
+                    contentType: "application/json;charset=utf-8",
+                    data: '{"username":"' + user + '"}',
+                    type: "POST",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.username == null) {
+                            console.log("空");
+                            chose = true;
+                        }else {
+                            $("#span").html("用户名已存在");
+                            chose = false;
+                        }
+                    }
+                });
+            });
+
+        });
+        $(function () {
+            $(document).ready(function () {
+                alert("asdf");
+                $("#form").bootstrapValidator({
+                    fields: {
+                        username: {
+                            validators: {
+                                notEmpty: {//不能为空
+                                    message: '请输入用户名'
+                                },
+                                //长度校验
+                                stringLength: {
+                                    min: 1,
+                                    max: 11,
+                                    message: '字符长度必须在1位到10位之间'
+                                }
+                            }
+                        },
+                        password: {
+                            validators: {
+                                notEmpty: {//不能为空
+                                    message: '请输入密码'
+                                },
+                                //长度校验
+                                stringLength: {
+                                    min: 1,
+                                    max: 11,
+                                    message: '字符长度必须在1位到10位之间'
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        })
+    </script>
+</head>
+<body>
+<div class="container" style="width: 400px;">
+    <h3 style="text-align: center;">新用户注册</h3>
+    <form th:action="@{/user/register}" method="post" id="form">
+        <div class="form-group">
+            <label for="username">用户名：</label>
+            <input type="text" name="username" class="form-control" id="username" placeholder="请输入用户名"/>
+        </div>
+
+        <div class="form-group">
+            <label for="password">密码：</label>
+            <input type="password" name="password" class="form-control" id="password" placeholder="请输入密码"/>
+        </div>
+
+        <hr/>
+        <div class="form-group" style="text-align: center;">
+            <input class="btn btn btn-primary" type="submit" value="注  册">
+            <input class="btn btn btn-primary" type="button" value="返  回">
+        </div>
+    </form>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.dfzr.dao.IProductDao">
+    <select id="findAllProduct" resultType="product">
+        select * from product
+    </select>
+
+    <!--查询总条数-->
+
+    <!--模糊查询，当前页信息-->
+    <select id="findPage" resultType="product">
+        select * from product where isDelete=0
+        <if test="name!=null and name!=''">
+            and proname like "%"#{name}"%"
+        </if>
+    </select>
+
+    <!--查询总条数-->
+    <select id="findProductSum" resultType="int">
+        select count(*) from product;
+    </select>
+
+    <!--查询单条信息-->
+    <select id="findOne" resultType="product">
+        select * from product where proid=#{proId}
+    </select>
+
+    <!--将商品信息进行持久化-->
+    <insert id="addProduct">
+        insert into product values(null,#{proName},#{proPrice},#{proAddress},#{proImage},#{isDelete})
+    </insert>
+
+    <!--删除商品信息-->
+    <update id="deleteProduct">
+        update product set isDelete=1 where proId=#{proId}
+    </update>
+    
+    <!--批量删除商品信息-->
+    <update id="deleteProductList">
+        update product set isDelete=1 where proId in
+        <foreach collection="array" item="proId" open="(" close=")" separator=",">
+            #{proId}
+        </foreach>
+    </update>
+</mapper>

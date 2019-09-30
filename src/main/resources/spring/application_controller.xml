@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--扫描controller层注解-->
+    <context:component-scan base-package="org.dfzr">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+
+    <!--配置前端控制器-->
+    <bean id="springResourceTemplateResolver" class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
+        <property name="prefix" value="/WEB-INF/templates/"></property>
+        <property name="suffix" value=".html"></property>
+        <!--解决页面的中文乱码-->
+        <property name="characterEncoding" value="UTF-8"></property>
+        <property name="order" value="1"></property>
+        <property name="templateMode" value="HTML5"></property>
+        <property name="cacheable" value="false"></property>
+    </bean>
+
+    <bean id="springTemplateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
+        <property name="templateResolver" ref="springResourceTemplateResolver"></property>
+    </bean>
+
+    <bean id="thymeleafViewResolver" class="org.thymeleaf.spring5.view.ThymeleafViewResolver">
+        <property name="templateEngine" ref="springTemplateEngine"></property>
+        <property name="characterEncoding" value="UTF-8"></property>
+    </bean>
+
+    <!--配置文件上传-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--控制批量单次文件上传大小为 10M-->
+        <property name="maxUploadSize" value="10737418240"></property>
+    </bean>
+
+    <!-- 允许对静态资源文件的访问 -->
+    <mvc:default-servlet-handler/>
+
+
+    <mvc:annotation-driven />
+
+
+</beans>

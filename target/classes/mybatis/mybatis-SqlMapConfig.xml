@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <!--扫描pojo对象-->
+    <typeAliases>
+        <package name="org.dfzr.pojo"/>
+    </typeAliases>
+
+    <!--配置分页插件参数-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <property name="dialet" value="mysql"/>
+        </plugin>
+    </plugins>
+
+    <!--配置mapper对象-->
+    <mappers>
+        <mapper resource="mapper/IProductDao.xml"></mapper>
+        <mapper resource="mapper/IUserDao.xml"></mapper>
+    </mappers>
+
+
+</configuration>

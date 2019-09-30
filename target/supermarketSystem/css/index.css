@@ -1,0 +1,98 @@
+*{
+    margin:0;
+    padding: 0;
+}
+html,body{
+    width: 100%;
+    height:100%;
+    background-image: url("/imgages/bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#demo{
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -200px;
+    background-image: url("/imgages/tmbg-white.png");
+    border-radius: 4px;
+    padding: 25px 30px;
+    box-sizing: border-box;
+}
+.col{
+    text-align: center;
+    box-sizing: border-box;
+    width: 330px;
+    height: 40px;
+    margin: 15px auto;
+    position: relative;
+}
+p{
+    text-align: center;
+}
+h1{
+    text-align: center;
+    margin:5px;
+}
+input{
+    /*background-color: yellow;*/
+    border: 0 none;
+    font-size: 14px;
+    box-sizing: border-box;
+    width: 300px;
+    height: 34px;
+    margin-top: 3px;
+    border-radius: 20px;
+    outline: none;
+    padding-left: 13px;
+}
+button{
+    border: 0 none;
+    outline: none;
+    background-color: lightskyblue;
+    width: 100px;
+    height: 30px;
+    margin:20px 15px;
+    border-radius: 4px;
+}
+button:hover{
+    color: white;
+    background-color: cyan;
+}
+.col>i{
+    position: absolute;
+    width: 40px;
+    height: 34px;
+    background-image: url(/imgages/username.png);
+    background-repeat:no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+    top: 3px;
+    right: 22px;
+    border-radius: 20px;
+}
+b{
+    position: absolute;
+    width: 40px;
+    height: 34px;
+    background-image: url(/imgages/password.png);
+    background-repeat:no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover;
+    top: 3px;
+    right: 22px;
+    border-radius: 20px;
+}
+img{
+    position: absolute;
+    width: 80px;
+    height: 34px;
+    top: 3px;
+    right: 15px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-left: 1px solid #ddd;
+}

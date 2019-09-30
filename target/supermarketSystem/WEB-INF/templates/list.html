@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>管理员注册</title>
+
+    <!-- 1. 导入CSS的全局样式 -->
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <!-- 2. jQuery导入，建议使用1.9以上的版本 -->
+    <script th:src="@{/js/jquery-1.8.3.js}"></script>
+    <!-- 3. 导入bootstrap的js文件 -->
+    <script th:src="@{/js/bootstrap.js}"></script>
+
+    <script>
+        function changePage(currentPage) {
+            var name = '[[${name}]]';
+            location.href = "[[@{/}]]product/findPage?name=" + name + "&currentPage=" + currentPage + "";
+        }
+
+        function deletes(proId, currentPage) {
+            var name = '[[${name}]]';
+            var b = confirm("是否要删除");
+            if (b) {
+                location.href = "[[@{/}]]product/deleteProduct?name=" + name + "&currentPage=" + currentPage + "&proId=" + proId;
+            }
+        }
+
+        $(function () {
+            $("#deleteLittle").click(function () {
+                var name = '[[${name}]]';
+                var currentPage = '[[${page.currentPage}]]';
+                var obj = document.getElementsByName("checkbox")
+                var check_val = [];
+                for (var i in obj) {
+                    if (obj[i].checked) {
+                        check_val.push(obj[i].value);
+                    }
+                }
+                location.href = "[[@{/}]]product/deleteProductList?name=" + name +
+                    "&currentPage=" + currentPage + "&check_val=" + check_val;
+            })
+
+        });
+
+    </script>
+    <div class="container">
+        <h3 style="text-align: center">产品信息查询</h3>
+        <div style="width:100px;margin-left: 20px;display: block;position: absolute;">
+            <button class="btn btn-primary" id="deleteLittle">删除选中的</button>
+        </div>
+        <div style="float:right ;width:350px;display: block">
+            <form th:action="@{/product/findPage}" method="post">
+                &emsp;&emsp;
+                产品名称:<input type="text" name="name" id="name" th:value="${name}">&emsp;&emsp;
+                <input type="submit" class="btn btn-primary" value="搜索">
+            </form>
+        </div>
+        <table border="1" class="table table-bordered table-hover">
+            <tr class="success">
+                <th>操作</th>
+                <th>产品名称</th>
+                <th>产品产地</th>
+                <th>产品价格</th>
+                <th>详情</th>
+                <th>删除</th>
+            </tr>
+            <tr th:each="product:${page.objects}">
+                <td>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="checkbox" id="checkbox" th:value="${product.proId}">
+                    </label>
+                </td>
+                <td th:text="${product.proName}"></td>
+                <td th:text="${product.proAddress}"></td>
+                <td th:text="${product.proPrice}"></td>
+                <td>
+                    <a class="btn btn-default btn-sm"
+                       th:href="@{'/product/details?proId='+${product.proId}+''}">详情</a>&nbsp;
+                </td>
+                <td>
+                    <a class="btn btn-default btn-sm"
+                       th:onclick="deletes('[[${product.proId}]]','[[${page.currentPage}]]')"
+                       href="javascript:void(0)">删除</a>
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td colspan="8" align="center">
+                    <a class="btn btn-primary" th:href="@{'/product/add'}">新增产品</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8" align="center">
+                    <a class="btn btn-primary" href="javascript:void(0)" onclick="changePage(1)">首页</a>
+                    <a class="btn btn-primary" th:if="${page.currentPage gt 1}" href="javascript:void(0)"
+                       th:onclick="changePage('[[${page.currentPage-1}]]')">上一页</a>
+                    <a class="btn btn-primary" th:if="${page.currentPage eq 1}" disabled="disabled"
+                       href="javascript:void(0)">上一页</a>
+
+                    第 <span th:text="${page.currentPage}"></span> 页 共 <span th:text="${page.totalPage}"></span> 页
+                    <a class="btn btn-primary" href="javascript:void(0)" th:if="${page.currentPage lt page.totalPage}"
+                       th:onclick="changePage('[[${page.currentPage+1}]]')">下一页</a>
+                    <a class="btn btn-primary" href="javascript:void(0)" th:if="${page.currentPage eq page.totalPage}"
+                       disabled="disabled">下一页</a>
+
+                    <a class="btn btn-primary" href="javascript:void(0)"
+                       th:onclick="changePage('[[${page.totalPage}]]')">尾页</a>
+                </td>
+            </tr>
+
+        </table>
+
+    </div>
+</html>
